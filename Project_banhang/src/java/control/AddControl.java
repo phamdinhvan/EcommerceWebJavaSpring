@@ -6,23 +6,22 @@
 package control;
 
 import dao.DAO;
-import entity.Category;
-import entity.Product;
+import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author trinh
  */
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "AddControl", urlPatterns = {"/add"})
+public class AddControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +35,21 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //b1: get data from dao
-        DAO dao = new DAO();
-        List<Product> list = dao.getTop3();
-        List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
+        request.setCharacterEncoding("UTF-8");
+        String pname = request.getParameter("name");
+        String pimage = request.getParameter("image");
+        String pprice = request.getParameter("price");
+        String ptitle = request.getParameter("title");
+        String pdescription = request.getParameter("description");
+        String pcategory = request.getParameter("category");
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("acc");
+        int sid = a.getId();
         
-        //b2: set data to jsp
-        request.setAttribute("listP", list);
-        request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-        //404 -> url
-        //500 -> jsp properties
+        
+        DAO dao = new DAO();
+        dao.insertProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, sid);
+        response.sendRedirect("manager");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

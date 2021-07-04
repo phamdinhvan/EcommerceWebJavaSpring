@@ -6,6 +6,7 @@
 package control;
 
 import dao.DAO;
+import entity.Account;
 import entity.Category;
 import entity.Product;
 import java.io.IOException;
@@ -16,13 +17,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author trinh
  */
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "ManagerControl", urlPatterns = {"/manager"})
+public class ManagerControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +38,16 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //b1: get data from dao
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("acc");
+        int id = a.getId();
         DAO dao = new DAO();
-        List<Product> list = dao.getTop3();
+        List<Product> list = dao.getProductBySellID(id);
         List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
-        
-        //b2: set data to jsp
-        request.setAttribute("listP", list);
+
         request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-        //404 -> url
-        //500 -> jsp properties
+        request.setAttribute("listP", list);
+        request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
