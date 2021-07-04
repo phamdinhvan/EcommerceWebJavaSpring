@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author trinh
  */
-@WebServlet(name = "HomeControl", urlPatterns = {"/home"})
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "LoadControl", urlPatterns = {"/loadProduct"})
+public class LoadControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,19 +36,14 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //b1: get data from dao
+        String id = request.getParameter("pid");
         DAO dao = new DAO();
-        List<Product> list = dao.getTop3();
+        Product p = dao.getProductByID(id);
         List<Category> listC = dao.getAllCategory();
-        Product last = dao.getLast();
-        
-        //b2: set data to jsp
-        request.setAttribute("listP", list);
+
+        request.setAttribute("detail", p);
         request.setAttribute("listCC", listC);
-        request.setAttribute("p", last);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-        //404 -> url
-        //500 -> jsp properties
+        request.getRequestDispatcher("Edit.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>LapTopK2</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -19,9 +19,9 @@
                     <div class="col">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="home">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Category</a></li>
-                                <li class="breadcrumb-item active" aria-current="#">Sub-category</li>
+                                <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="#">Hãng</a></li>
+                                <li class="breadcrumb-item active" aria-current="#">Sản phẩm</li>
                             </ol>
                         </nav>
                     </div>
@@ -31,10 +31,10 @@
                 <div class="row">
                 <jsp:include page="Left.jsp"></jsp:include>
 
-                <div class="col-sm-9">
-                    <div class="row">
+                    <div class="col-sm-9">
+                        <div id="content" class="row">
                         <c:forEach items="${listP}" var="o">
-                            <div class="col-12 col-md-6 col-lg-4">
+                            <div class="product col-12 col-md-6 col-lg-4">
                                 <div class="card">
                                     <img class="card-img-top" src="${o.image}" alt="Card image cap">
                                     <div class="card-body">
@@ -42,10 +42,10 @@
                                         <p class="card-text show_txt">${o.title}</p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">${o.price} $</p>
+                                                <p class="btn btn-danger btn-block">${o.price} VND</p>
                                             </div>
                                             <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Add to cart</a>
+                                                <a href="#" class="btn btn-success btn-block">Thêm vào giỏ hàng</a>
                                             </div>
                                         </div>
                                     </div>
@@ -53,12 +53,50 @@
                             </div>
                         </c:forEach>
                     </div>
+                    <button onclick="loadMore()" class="btn btn-primary">Xem thêm</button>
                 </div>
 
             </div>
         </div>
 
         <jsp:include page="Footer.jsp"></jsp:include>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+                        function loadMore() {
+                            var amount = document.getElementsByClassName("product").length;
+                            $.ajax({
+                                url: "/Project_banhang/load",
+                                type: "get", //send it through get method
+                                data: {
+                                    exits: amount
+                                },
+                                success: function (data) {
+                                    var row = document.getElementById("content");
+                                    row.innerHTML += data;
+                                },
+                                error: function (xhr) {
+                                    //Do Something to handle error
+                                }
+                            });
+                        }
+                        function searchByName(param){
+                            var txtSearch = param.value;
+                            $.ajax({
+                                url: "/Project_banhang/searchAjax",
+                                type: "get", //send it through get method
+                                data: {
+                                    txt: txtSearch
+                                },
+                                success: function (data) {
+                                    var row = document.getElementById("content");
+                                    row.innerHTML = data;
+                                },
+                                error: function (xhr) {
+                                    //Do Something to handle error
+                                }
+                            });
+                        }
+        </script>  
     </body>
 </html>
 
