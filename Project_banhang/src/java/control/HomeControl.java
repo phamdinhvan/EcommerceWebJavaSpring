@@ -41,8 +41,7 @@ public class HomeControl extends HttpServlet {
         {
             indexPage="1";
         }
-        
-        
+        int index=Integer.parseInt(indexPage);
         //b1: get data from dao
         DAO dao = new DAO();
         List<Product> list = dao.getAllProduct();
@@ -57,10 +56,9 @@ public class HomeControl extends HttpServlet {
             endPage++;
         }
         
-       
-        
         //b2: set data to jsp
         request.setAttribute("endP",endPage);
+        request.setAttribute("tagPage",index);
         request.setAttribute("listPage", listProduct);
         request.setAttribute("listP", list);
         request.setAttribute("listCC", listC);

@@ -55,7 +55,7 @@
                     </div>
                     <button onclick="loadMore()" class="btn btn-primary">Xem thêm</button>
                     <c:forEach begin="1" end="${endP}" var="i">
-                        <a href="home?index=${i}">${i}</a>
+                        <a  class="${tagPage==i?"pageActive":""}" href="home?index=${i}">${i}</a>
                     </c:forEach>
                 </div>
                

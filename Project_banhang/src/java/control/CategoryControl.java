@@ -37,12 +37,14 @@ public class CategoryControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String cateID = request.getParameter("cid");
-         response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         String  indexPage=request.getParameter("index");
+        
         if(indexPage==null)
         {
             indexPage="1";
         }
+        int index=Integer.parseInt(indexPage);
         //da lay dc category id ve roi
         DAO dao = new DAO();
         List<Product> list = dao.getProductByCID(cateID);
@@ -59,6 +61,7 @@ public class CategoryControl extends HttpServlet {
        
         
         //b2: set data to jsp
+        request.setAttribute("tagPage",index);
         request.setAttribute("endP",endPage);
         request.setAttribute("listPage", listProduct);
         request.setAttribute("listP", list);
