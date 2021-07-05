@@ -36,13 +36,32 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String  indexPage=request.getParameter("index");
+        if(indexPage==null)
+        {
+            indexPage="1";
+        }
+        
+        
         //b1: get data from dao
         DAO dao = new DAO();
-        List<Product> list = dao.getTop3();
+        List<Product> list = dao.getAllProduct();
         List<Category> listC = dao.getAllCategory();
         Product last = dao.getLast();
+        List<Product> listProduct=dao.pagingProduct(indexPage);
+        
+         int count =dao.getTotalProduct();
+        int endPage=count/6;
+        if(count%6!=0)
+        {
+            endPage++;
+        }
+        
+       
         
         //b2: set data to jsp
+        request.setAttribute("endP",endPage);
+        request.setAttribute("listPage", listProduct);
         request.setAttribute("listP", list);
         request.setAttribute("listCC", listC);
         request.setAttribute("p", last);
