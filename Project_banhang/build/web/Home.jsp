@@ -33,9 +33,9 @@
 
                     <div class="col-sm-9">
                         <div id="content" class="row">
-                        <c:forEach items="${listP}" var="o">
+                        <c:forEach items="${listPage}" var="o">
                             <div class="product col-12 col-md-6 col-lg-4">
-                                <div class="card">
+                                <div class="card ">
                                     <img class="card-img-top" src="${o.image}" alt="Card image cap">
                                     <div class="card-body">
                                         <h4 class="card-title show_txt"><a href="detail?pid=${o.id}" title="View Product">${o.name}</a></h4>
@@ -54,7 +54,11 @@
                         </c:forEach>
                     </div>
                     <button onclick="loadMore()" class="btn btn-primary">Xem thêm</button>
+                    <c:forEach begin="1" end="${endP}" var="i">
+                        <a  class="${tagPage==i?"pageActive":""}" href="home?index=${i}">${i}</a>
+                    </c:forEach>
                 </div>
+               
 
             </div>
         </div>

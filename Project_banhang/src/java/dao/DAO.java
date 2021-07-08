@@ -40,6 +40,91 @@ public class DAO {
         }
         return list;
     }
+    
+    public int getTotalProduct() {
+        String query = "select count(*) from product";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public int getTotalProductByCID(String cid) {
+        String query = "select count(*) from product where cateID=?";
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    public List<Product> pagingProduct(String amount) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT *\n"
+                + "  FROM product\n"
+                + " ORDER BY id\n"
+                + "OFFSET ? ROWS\n"
+                + " FETCH NEXT 6 ROWS ONLY";
+        try {
+            int am=Integer.parseInt(amount);
+            int index=(am-1)*6;
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, index);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+     public List<Product> pagingProductByCID(String cid, String amount) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT *\n"
+                + "  FROM product\n"
+                + "where cateID = ?\n"
+                + " ORDER BY id\n"
+                + "OFFSET ? ROWS\n"
+                + " FETCH NEXT 6 ROWS ONLY";
+             
+        try {
+            conn = new DBContext().getConnection();//mo ket noi voi sql
+            int am=Integer.parseInt(amount);
+            int index=(am-1)*6;
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cid);
+            ps.setInt(2, index);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
 
     public List<Product> getTop3() {
         List<Product> list = new ArrayList<>();
@@ -60,6 +145,7 @@ public class DAO {
         }
         return list;
     }
+    
 
     public List<Product> getNext3Product(int amount) {
         List<Product> list = new ArrayList<>();
@@ -320,6 +406,9 @@ public class DAO {
         } catch (Exception e) {
         }
     }
+    
+    
+    
 
     public static void main(String[] args) {
         DAO dao = new DAO();
