@@ -69,7 +69,7 @@
                         function loadMore() {
                             var amount = document.getElementsByClassName("product").length;
                             $.ajax({
-                                url: "/Project_banhang/load",
+                                url: "/load",
                                 type: "get", //send it through get method
                                 data: {
                                     exits: amount
