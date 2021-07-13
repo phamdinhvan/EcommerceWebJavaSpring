@@ -5,10 +5,6 @@
  */
 package entity;
 
-/**
- *
- * @author trinh
- */
 public class Product {
     private int id;
     private String name;

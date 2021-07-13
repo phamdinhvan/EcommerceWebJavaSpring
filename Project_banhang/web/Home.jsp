@@ -45,7 +45,7 @@
                                                 <p class="btn btn-danger btn-block">${o.price} VND</p>
                                             </div>
                                             <div class="col">
-                                                <a href="#" class="btn btn-success btn-block">Thêm vào giỏ hàng</a>
+                                                <a href="Cart.jsp" class="btn btn-success btn-block">Thêm vào giỏ hàng</a>
                                             </div>
                                         </div>
                                     </div>

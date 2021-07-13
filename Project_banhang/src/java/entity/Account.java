@@ -5,10 +5,6 @@
  */
 package entity;
 
-/**
- *
- * @author trinh
- */
 public class Account {
     private int id;
     private String user;
