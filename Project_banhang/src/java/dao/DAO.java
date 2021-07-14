@@ -96,22 +96,21 @@ public class DAO {
         return list;
     }
     
-     public List<Product> pagingProductByCID(String cid, String amount) {
+     public List<Product> pagingProductByCID(String cid) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT *\n"
                 + "  FROM product\n"
                 + "where cateID = ?\n"
                 + " ORDER BY id\n"
-                + "OFFSET ? ROWS\n"
+                + "OFFSET 0 ROWS\n"
                 + " FETCH NEXT 6 ROWS ONLY";
              
         try {
             conn = new DBContext().getConnection();//mo ket noi voi sql
-            int am=Integer.parseInt(amount);
-            int index=(am-1)*6;
+           
             ps = conn.prepareStatement(query);
             ps.setString(1, cid);
-            ps.setInt(2, index);
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1),

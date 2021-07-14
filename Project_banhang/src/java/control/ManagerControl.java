@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author trinh
  */
-@WebServlet(name = "ManagerControl", urlPatterns = {"/manager"})
+@WebServlet(name = "ManagerControl", urlPatterns = {"/manageradmin"})
 public class ManagerControl extends HttpServlet {
 
     /**

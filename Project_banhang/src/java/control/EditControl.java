@@ -45,7 +45,7 @@ public class EditControl extends HttpServlet {
         String pcategory = request.getParameter("category");
         DAO dao = new DAO();
         dao.editProduct(pname, pimage, pprice, ptitle, pdescription, pcategory, pid);
-        response.sendRedirect("manager");
+        response.sendRedirect("manageradmin");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
